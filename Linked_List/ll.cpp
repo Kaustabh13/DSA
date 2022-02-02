@@ -228,6 +228,38 @@ Node* reverse(Node* head) {
     return prev;
 }
 
+//Count
+
+/**
+ * @brief This function is used to calculate the size of the Linked List
+ * 
+ * @param head -> The root of the node
+ * @return int -> The count of the linked list
+ */
+
+int sizeOfList(Node* head) {
+
+    int count = 0;
+
+    while(head != NULL) {
+        count++;
+        head = head->next;
+    }
+
+    return count;
+}
+
+/**
+ * @brief This function is used to calculate the size of the list recursively
+ * 
+ * @param node -> The root of the node
+ * @return int -> The count of the linked list
+ */
+
+int sizeOfListRecursively(Node* node) {
+    if(node == NULL) return 0;  
+    return 1 + sizeOfListRecursively(node->next);
+}
 
 /**
  * @brief This main function acting as initializer
@@ -256,13 +288,7 @@ int main() {
 
     traverseLL(head);
 
-    cout << "Before Delete" << endl;
-
-    head = deleteEntireList(head);
-
-    cout << "After Delete" << endl;
-
-    traverseLL(head);
+    cout << sizeOfListRecursively(head);
 
     return 0;
 }
