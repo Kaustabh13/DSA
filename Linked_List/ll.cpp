@@ -170,12 +170,40 @@ Node* deleteAtIndex(Node* head, int index) {
         i++;
     }
     
-   if(node == NULL) return head;
+   if(node == NULL) return head; //If index crosses the available position
 
    Node* tempNode = node->next;
    node->next = tempNode->next;
    free(tempNode);
    return head;
+}
+
+//Reverse
+
+/**
+ * @brief This function is used to reverse a linked list
+ * 
+ * @param head -> The root of the node
+ * @return Node* -> The new head
+ */
+
+Node* reverse(Node* head) {
+    //Head->[6]->[7]->[8]->NULL --> Current
+    //NULL<-[6]<-[7]<-[8]<-Head --> Reversed/Target
+
+    Node* prev = NULL;
+    Node* current = head;
+    Node* next = NULL;
+
+    while(current != NULL) {
+
+        next = current->next; //Store the next value for first it will store 7
+        current->next = prev; //For first make it NULL and for further replace with previous value
+        prev = current; //Store current value in previous
+        current = next; //Store next value in current
+    }
+
+    return prev;
 }
 
 /**
@@ -203,7 +231,9 @@ int main() {
     second->data = 9;
     second->next = NULL;
 
-    head = deleteAtIndex(head, 2);
+    traverseLL(head);
+    head = reverse(head);
+    cout << "After Reversal" << endl;
     traverseLL(head);
     return 0;
 }
