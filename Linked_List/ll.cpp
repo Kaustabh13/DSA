@@ -178,6 +178,28 @@ Node* deleteAtIndex(Node* head, int index) {
    return head;
 }
 
+/**
+ * @brief This function is used to delete the entire linked list
+ * 
+ * @param head -> The root of the node/starting of the linked list
+ * @return Node* -> The new head or currently in this case NULL
+ */
+
+Node* deleteEntireList(Node* head) {
+
+    Node* node = head;
+    Node* tempNode = NULL;
+
+    while(node != NULL) {
+        tempNode = node;
+        node = tempNode->next;
+        free(tempNode);
+    }
+
+    head = node;
+    return head;
+}
+
 //Reverse
 
 /**
@@ -206,6 +228,7 @@ Node* reverse(Node* head) {
     return prev;
 }
 
+
 /**
  * @brief This main function acting as initializer
  * 
@@ -232,8 +255,14 @@ int main() {
     second->next = NULL;
 
     traverseLL(head);
-    head = reverse(head);
-    cout << "After Reversal" << endl;
+
+    cout << "Before Delete" << endl;
+
+    head = deleteEntireList(head);
+
+    cout << "After Delete" << endl;
+
     traverseLL(head);
+
     return 0;
 }
