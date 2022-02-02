@@ -80,6 +80,59 @@ Node* insertAtLast(Node* head, int data) {
     return head;
 }
 
+//Delete 
+
+/**
+ * @brief This function is used to delete the first node
+ * 
+ * @param head -> The root of the node
+ * @return Node* -> The new head 
+ */
+
+Node* deleteAtFirst(Node* head) {
+
+    Node* ptr = head; //[6]->[7]->[8]
+    Node* tempNode = head;
+
+    while(ptr->next != head) {
+        ptr = ptr->next;
+    }
+    
+    ptr->next = tempNode->next;
+    free(tempNode); //Free Memory
+    head = ptr;
+
+    return head;
+}
+
+/**
+ * @brief This function is used to delete the last node and connect the previous of last to the head node to make it circular
+ * 
+ * @param head -> The root node of the CLL
+ * @return Node* -> The root noed of CLL
+ */
+
+Node* deleteAtLast(Node* head) {
+
+    Node* ptr = head; //[6]->[8]->[9]
+    Node* tempNode = head;
+    Node* prev = NULL;
+
+    while(ptr->next != head) {
+        prev = ptr;
+        ptr = ptr->next;
+    }
+    
+    free(ptr);
+    prev->next = head;
+
+    return head;
+}
+
+//Searching & Matching in CLL is same as Linked List
+
+//Main Function
+
 /**
  * @brief This main function acting as initializer
  * 
@@ -106,7 +159,10 @@ int main() {
     second->next = head; //Make it circular by connecting it to the head
 
     traverseLL(head);
-    head = insertAtLast(head, 20);
+    cout << "Before Deleted" << endl;
+    head = deleteAtLast(head);
+    cout << "After Deleted" << endl;
+
     traverseLL(head);
 
     return 0;
