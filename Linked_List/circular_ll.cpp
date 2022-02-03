@@ -129,6 +129,38 @@ Node* deleteAtLast(Node* head) {
     return head;
 }
 
+//Reverse
+
+/**
+ * @brief This function is used to reverse the CLL
+ * 
+ * @param head -> The current root of the node
+ * @return Node* -> The updated root of the node
+ */
+
+Node* reverse(Node* head) {
+
+    //Current:- [6]->[8]->[9]->Head 6 is Head
+    //Target:-  Head<-[6]<-[8]<-[9] 9 is Head
+
+    Node* prev = NULL;
+    Node* current = head;
+    Node* next = NULL;
+
+    while(current->next != head) { 
+       next = current->next; 
+       current->next = prev; 
+       prev = current; 
+       current = next; 
+    }
+
+    current->next = prev;
+    head->next = current;
+    head = current;
+
+    return head;    
+}
+
 //Searching & Matching in CLL is same as Linked List
 
 //Main Function
@@ -159,9 +191,9 @@ int main() {
     second->next = head; //Make it circular by connecting it to the head
 
     traverseLL(head);
-    cout << "Before Deleted" << endl;
-    head = deleteAtLast(head);
-    cout << "After Deleted" << endl;
+    cout << "Before Reversal" << endl;
+    head = reverse(head);
+    cout << "After Reversal" << endl;
 
     traverseLL(head);
 
