@@ -217,6 +217,39 @@ Node* deleteSpecificNode(Node* head, Node* node) {
     return head;
 }
 
+//Reverse
+
+/**
+ * @brief This function is used to reverse DLL
+ * 
+ * @param head -> The root node of the DLL
+ * @return Node* -> The new head/root of the DLL
+ */
+
+Node* reverse(Node* head) {
+
+    //Current:- NULL<-[6]-><-[8]-><-[9]->NULL
+    //Target:- NULL<-[9]-><-[8]-><-[6]->NULL
+
+    Node* prev = NULL;
+    Node* current = head;
+    Node* next = NULL;
+
+    while(current->next != NULL) { 
+        next = current->next; 
+        current->next = prev; 
+        prev = current; 
+        current->prev = next; 
+        current = next; 
+    }
+
+    current->next = prev;
+    current->prev = NULL;
+    head = current;
+
+    return head;
+
+}
 
 //Main Function
 
@@ -250,7 +283,10 @@ int main() {
     second->next = NULL;
     second->prev = first; 
 
-    head = deleteSpecificNode(head, first);
+    traverseDLL(head);
+    cout << "Before Reveral" << endl;
+    head = reverse(head);
+    cout << "After Reveral" << endl;
     traverseDLL(head);
     return 0;
 }
