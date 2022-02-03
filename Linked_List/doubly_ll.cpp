@@ -141,8 +141,86 @@ Node* insertBeforeNode(Node* head, Node* current, int data) { //Added head in pa
     return head;
 }
 
+//Delete 
+
+/**
+ * @brief This function is used to delete the head node and replace the head with next available node.
+ * We are assuming that this head is not the only node
+ * 
+ * @param head -> The root of the DLL
+ * @return Node* -> The new head node
+ */
+
+Node* deleteFirstNode(Node* head) {
+
+    //Current:- NULL<-[6]-><-[8]-><-[9]->NULL
+    //Target:- NULL<-[8]-><-[9]->NULL
+
+
+    if(head->next == NULL) return head; //In case of single node DLL, just return the node. We can delete this as well to free memory, but keeping it for now
+
+    Node* current = head;
+
+    current->next->prev = current->prev;
+
+    head = current->next;
+
+    free(current); //Free Memory
+
+    return head;
+}
+
+/**
+ * @brief This function is used to delete the last node 
+ * 
+ * @param head -> The root of the node
+ * @return Node* -> The head of the node for traversal
+ */
+
+Node* deleteLastNode(Node* head) {
+
+    //Current:- NULL<-[6]-><-[8]-><-[9]->NULL
+    //Target:- NULL<-[6]-><-[8]->NULL
+
+    Node* current = head;
+
+    while(current->next != NULL) {
+        current = current->next;
+    }
+
+    current->prev->next = current->next;
+    free(current);
+    return head;
+}
+
+/**
+ * @brief This function is used to delete a specific node, it can be the middle node, first node, second node or any other node in the growing DLL
+ * 
+ * @param head -> The root node to handle the edge cases
+ * @param node -> The node to be deleted
+ * @return Node* -> The head node for traversal
+ */
+
+Node* deleteSpecificNode(Node* head, Node* node) {
+
+     //Current:- NULL<-[6]-><-[8]-><-[9]->NULL
+    //Target:- NULL<-[6]-><-[9]->NULL ==> Assuming node to be deleted is 8 or the middle node here
+
+    if(node->prev == NULL) return deleteFirstNode(head); //Edge case
+    if(node->next == NULL) return deleteLastNode(head); //Edge case
+
+    node->next->prev = node->prev;
+    node->prev->next = node->next;
+
+    free(node); //Free Memory
+
+    return head;
+}
+
 
 //Main Function
+
+//Search & Match Works the same way as LL
 
 /**
  * @brief This main function acting as initializer
@@ -172,7 +250,7 @@ int main() {
     second->next = NULL;
     second->prev = first; 
 
-    head = insertBeforeNode(head, first, 22);
+    head = deleteSpecificNode(head, first);
     traverseDLL(head);
     return 0;
 }
