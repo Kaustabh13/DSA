@@ -20,11 +20,21 @@ public:
 
 void traverseDLL(Node* head) {
     Node* current = head;
+    bool isReverse = false;
     while(current != NULL) {
+
         cout << current->data << endl;
-        current = current->next;
-    }
+        if(current->next == NULL && !isReverse) {
+            isReverse = true;
+            cout << "Reverse Traversal" << endl;
+            cout << current->data << endl;
+        }
+        
+        current = isReverse ? current->prev : current->next;
+    }    
 }
+
+
 
 //Main Function
 
