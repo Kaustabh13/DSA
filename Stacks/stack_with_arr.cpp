@@ -110,12 +110,7 @@ void peek(Stack* stack, int position) {
  */
 
 bool matchChar(char pre, char post) {
-
-    if(pre == '(' && post == ')' || pre == '[' && post == ']' || pre == '{' && post == '}') {
-        return true;
-    }
-
-    return false;
+    return pre == '(' && post == ')' || pre == '[' && post == ']' || pre == '{' && post == '}';
 }
 
 //Parenthesis Matching
@@ -152,6 +147,76 @@ bool isParenthesisMatching(string s) {
     return isEmpty(sp);
 }
 
+/**
+ * @brief This function is used to check whether the character is a boolean or not
+ * 
+ * @param ch -> The character of equation
+ * @return -> A boolean which tells whether the char is an operator or not
+ */
+
+bool isOperator(char ch) {
+    return ch == '+' || ch == '-' || ch == '*' || ch == '/'; 
+}
+
+/**
+ * @brief This function is used to calculate the precedence of char
+ * 
+ * @param ch -> The character of equation
+ * @return int -> The precedence value
+ */
+
+int precedence(char ch) {
+
+    if(ch == '*' || ch == '/') {
+        return 3;
+    } else if (ch == '+' || ch == '-'){
+      return 2;
+    }
+
+    return 0;
+}
+
+//Infix To Postfix
+
+/**
+ * @brief This function is used to convert an expression from infix to postfix
+ * 
+ * @param s -> The infix equation
+ * @return string -> The postfix string
+ */
+
+string infixToPostfix(string s) {
+
+    string returnString = "";
+    Stack * sp = new Stack();
+    sp->size = s.length();
+    sp->top = -1;
+    
+    for(int i = 0; i < s.length(); i++) {
+
+        if(!isOperator(s[i])) {
+            returnString += s[i];
+        } else {
+
+            if(precedence(s[i]) > precedence(sp->arr[sp->top])) {
+                push(sp, s[i]);
+            } else {
+                returnString += pop(sp);
+                i--;
+            }
+        }
+    }
+
+    while (!isEmpty(sp))
+    {
+       returnString += pop(sp);
+    }
+    
+
+    return returnString;
+
+} 
+
 
 /**
  * @brief This main function acting as initializer
@@ -177,13 +242,16 @@ int main() {
     //     peek(sp, i);
     // }
 
-    string exp = "8-12-1]+{1-10})";
-    if (isParenthesisMatching(exp)) {
-        cout << "Patenthesis is matching" << endl;
-    } else {
-        cout << "Patenthesis is not matching" << endl;
-    }
+    // string exp = "([8-12-1]+{1-10})";
 
+    // if (isParenthesisMatching(exp)) {
+    //     cout << "Parenthesis is matching" << endl;
+    // } else {
+    //     cout << "Parenthesis is not matching" << endl;
+    // }
+
+    string infix = "x-y/z-k*d";
+    cout << "Postfix ->" << infixToPostfix(infix) << endl;
     return 0;
 }
 
