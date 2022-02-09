@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-//Stack Initializer, we can use pointer as well
+//Stack Initializer
 
 class Stack {
 public:
