@@ -211,11 +211,54 @@ string infixToPostfix(string s) {
     {
        returnString += pop(sp);
     }
-    
 
     return returnString;
-
 } 
+
+/**
+ * @brief This function is used to convert an infix to a prefix
+ * 
+ * @param s -> The infix
+ * @return string -> The prefix string
+ */
+
+string infixToPrefix(string s) {
+
+    //x-y
+    //-yx
+
+    string returnString = "";
+
+    Stack * sp = new Stack();
+    sp->size = s.length();
+    sp->top = -1;
+
+    reverse(s.begin(), s.end());
+
+    for(int i = 0; i < s.length(); i++) {
+
+        if(!isOperator(s[i])) {
+            returnString += s[i];
+        } else {
+
+            if(precedence(s[i]) > precedence(sp->arr[sp->top])) {
+                push(sp, s[i]);
+            } else {
+                returnString += pop(sp);
+                i--;
+            }
+        }
+    }
+
+    while (!isEmpty(sp))
+    {
+       returnString += pop(sp);
+    }
+
+    reverse(returnString.begin(), returnString.end());
+    
+    return returnString;
+}
 
 
 /**
@@ -250,7 +293,7 @@ int main() {
     //     cout << "Parenthesis is not matching" << endl;
     // }
 
-    string infix = "x-y/z-k*d";
+    string infix = "x-y+k/r";
     cout << "Postfix ->" << infixToPostfix(infix) << endl;
     return 0;
 }
