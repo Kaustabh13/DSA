@@ -3,7 +3,7 @@ using namespace std;
 
 //Queue Initializer
 
-class Queue {
+class CircularQueue {
 
 public:
     int front;
@@ -21,7 +21,7 @@ public:
  * @return -> A boolean which tells whether the Queue is empty or not 
  */
 
-bool isEmpty(Queue* q) {
+bool isEmpty(CircularQueue* q) {
     return q->rear == q->front;
 }
 
@@ -32,8 +32,8 @@ bool isEmpty(Queue* q) {
  * @return -> A boolean which tells whether the Queue is full or not 
  */
 
-bool isFull(Queue* q) {
-    return q->rear == q->size - 1;
+bool isFull(CircularQueue* q) {
+    return ((q->rear+1) % (q->size)) == q->front;
 }
 
 //Enque
@@ -45,12 +45,12 @@ bool isFull(Queue* q) {
  * @param val -> The value to be inserted
  */
 
-void enqueue(Queue* q, int val) {
+void enqueue(CircularQueue* q, int val) {
 
     if(isFull(q)) {
         cout << "Queue Overflow! Queue is full" << endl;
     } else {
-        q->rear++;
+        q->rear = (q->rear+1) % (q->size);
         q->arr[q->rear] = val;
 
         cout << "Enqueued in queue -> " << val << endl;
@@ -65,12 +65,12 @@ void enqueue(Queue* q, int val) {
  * @param q -> The queue 
  */
 
-void dequeue(Queue* q) {
+void dequeue(CircularQueue* q) {
 
     if(isEmpty(q)) {
         cout << "Queue Underflow! Queue is empty" << endl;
     } else {
-        q->front++;
+        q->front = (q->front+1) % (q->size);
         int val = q->arr[q->front];
         cout << "Dequeued value -> " << val << endl;
     }
@@ -85,7 +85,7 @@ void dequeue(Queue* q) {
  * @param position -> The position to be picked at
  */
 
-void peek(Queue* q, int position) {
+void peek(CircularQueue* q, int position) {
 
     if(position > q->rear) {
         cout << "Invalid peek position" << endl;
@@ -107,12 +107,12 @@ void peek(Queue* q, int position) {
  * @param q -> The queue
  */
 
-void frontVal(Queue* q) {
+void frontVal(CircularQueue* q) {
 
     if(isEmpty(q)) {
         cout << "Queue Underflow! Queue is empty" << endl;
     } else {
-        cout << "Front val -> " << q->arr[q->front + 1] << endl;
+        cout << "Front val -> " << q->arr[(q->front + 1) % (q ->size)] << endl;
     }
     
 }
@@ -123,12 +123,12 @@ void frontVal(Queue* q) {
  * @param q -> The queue
  */
 
-void rearVal(Queue* q) {
+void rearVal(CircularQueue* q) {
 
     if(isEmpty(q)) {
         cout << "Queue Underflow! Queue is empty" << endl;
     } else {
-        cout << "Rear val -> " << q->arr[q->rear] << endl;
+        cout << "Rear val -> " << q->arr[(q->rear + 1) % (q ->size)] << endl;
     }
 }
 
@@ -140,17 +140,19 @@ void rearVal(Queue* q) {
 
 int main() {
 
-    Queue *q = new Queue();
-    q->front = -1;
-    q->rear = -1;
-    q->size = 10;
+    CircularQueue *q = new CircularQueue();
+    q->front = 0;
+    q->rear = 0;
+    q->size = 4;
 
-    enqueue(q, 2);
     enqueue(q, 12);
-    enqueue(q, 22);
-    enqueue(q, 32);
+    enqueue(q, 15);
+    enqueue(q, 1);
+    enqueue(q, 1);
     dequeue(q);
- 
+    dequeue(q);
+    enqueue(q, 45);
+    enqueue(q, 46);
     if(isEmpty(q)) {
         cout << "Queue is empty" << endl;
     }
