@@ -87,6 +87,59 @@ void inOrder(BinaryTreeNode* root) {
 
 }
 
+//Searching
+
+/**
+ * @brief This function is used to search the value in the binary search tree iteratively
+ * 
+ * @param root -> The root of the tree
+ * @param key -> The matching position or the key
+ * @return -> A boolean which tells whether the search value is present in the tree or not
+ */
+
+bool isSearchedValuePresentIterative(BinaryTreeNode* root, int key) {
+
+    while(root != NULL) {
+
+        if(root->data == key) {
+            return true;
+        } else if(key < root->data) {
+            root = root->left;
+        } else {
+            root = root->right;
+        }
+    }
+
+    return false;
+}
+
+/**
+ * @brief This function is used to search the binary tree recursively
+ * 
+ * @param root -> The root of the node
+ * @param key -> The key to be matched in the tree
+ * @return A boolean which tells whether the key is present in the search tree or not
+ */
+
+bool isSearchedValuePresentRec(BinaryTreeNode* root, int key) {
+    
+    if(root == NULL) {
+        return false;
+    }
+
+    if(root->data == key) {
+        return true;
+    } else if(key < root->data) {
+        return isSearchedValuePresentRec(root->left, key);
+    } else {
+       return isSearchedValuePresentRec(root->right, key);
+    }
+
+    return false;
+}
+
+// Check for BST
+
 /**
  * @brief This function is used to check if the given binary tree is a binary search tree or not
  * 
@@ -159,5 +212,9 @@ int main() {
     cout << endl;
     cout << "Is BST ->" << endl;
     cout << isBinarySearchTree(root) << endl;
+    cout << "Is Searched Recursive ->" << endl;
+    cout << isSearchedValuePresentRec(root, 13) << endl;
+     cout << "Is Searched Iterative ->" << endl;
+    cout << isSearchedValuePresentIterative(root, 13) << endl;
     return 0;
 }
