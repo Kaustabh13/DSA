@@ -87,6 +87,39 @@ void inOrder(BinaryTreeNode* root) {
 
 }
 
+/**
+ * @brief This function is used to check if the given binary tree is a binary search tree or not
+ * 
+ * @param root -> The root of the tree
+ * @return A boolean which tells whether the tree is a BST or not 
+ */
+
+bool isBinarySearchTree(BinaryTreeNode* root) {
+
+    //      8
+    //    /   \
+    //   5     9
+    //  / \
+    // 3   6
+
+    static BinaryTreeNode* prev = NULL;
+
+    if(root == NULL) {
+        return true;
+    }
+
+    if(!isBinarySearchTree(root->left)) {
+        return false;
+    }
+
+    if(prev != NULL && prev->data >= root->data) {
+        return false;
+    }
+
+    prev = root;
+    return isBinarySearchTree(root->right);
+}
+
 //Main Function
 
 /**
@@ -97,11 +130,11 @@ void inOrder(BinaryTreeNode* root) {
 
 int main() {
 
-    BinaryTreeNode* root = createNode(1);
-    BinaryTreeNode* sub1 = createNode(2);
+    BinaryTreeNode* root = createNode(8);
+    BinaryTreeNode* sub1 = createNode(5);
     BinaryTreeNode* sub2 = createNode(3);
-    BinaryTreeNode* sub3 = createNode(4);
-    BinaryTreeNode* sub4 = createNode(5);
+    BinaryTreeNode* sub3 = createNode(6);
+    BinaryTreeNode* sub4 = createNode(9);
 
     //      1
     //    /   \
@@ -123,6 +156,8 @@ int main() {
     cout << endl;
     cout << "InOrder ->" << endl;
     inOrder(root); 
-
+    cout << endl;
+    cout << "Is BST ->" << endl;
+    cout << isBinarySearchTree(root) << endl;
     return 0;
 }
