@@ -173,6 +173,40 @@ bool isBinarySearchTree(BinaryTreeNode* root) {
     return isBinarySearchTree(root->right);
 }
 
+/**
+ * @brief This function is used to insert the node with the help of recursion
+ * 
+ * @param root -> The root of the node
+ * @param prev -> The previously stored node
+ * @param data -> The data for the new node
+ */
+
+void insert(BinaryTreeNode* root, BinaryTreeNode* prev, int data) {
+
+    if(root == NULL && prev != NULL) {
+        BinaryTreeNode* node = createNode(data);
+        
+        if(data < prev->data) {
+            prev->left = node;
+        } else {
+            prev->right = node;
+        }
+
+        cout << "Node Inserted" << endl;
+        return;
+    }
+
+    if(root->data == data) {
+        cout << "This value can not be instered as it will duplicated a node" << endl;
+        return;
+    } else if(root->data > data) {
+        return insert(root->left,root,data);
+    } else {
+        return insert(root->right,root,data);
+    }
+
+}
+
 //Main Function
 
 /**
@@ -214,7 +248,10 @@ int main() {
     cout << isBinarySearchTree(root) << endl;
     cout << "Is Searched Recursive ->" << endl;
     cout << isSearchedValuePresentRec(root, 13) << endl;
-     cout << "Is Searched Iterative ->" << endl;
+    cout << "Is Searched Iterative ->" << endl;
     cout << isSearchedValuePresentIterative(root, 13) << endl;
+    cout << "Insertion" << endl;
+    insert(root, NULL, 4);
+
     return 0;
 }
