@@ -207,6 +207,85 @@ void insert(BinaryTreeNode* root, BinaryTreeNode* prev, int data) {
 
 }
 
+//Delete
+
+/**
+ * @brief This function is used to delete the node with the help of recursion
+ * 
+ * @param root -> The root of the node
+ * @param data -> The data for the new node
+ */
+
+BinaryTreeNode* deleteFromTree(BinaryTreeNode* root, int data) {
+
+    //        8
+    //      /   \
+    //     5     9
+    //    / \
+    //   3   6
+   
+    if(root == NULL) { return NULL; }
+
+    if(data < root->data) {
+
+       root->left = deleteFromTree(root->left, data);
+       return root;
+
+    } else if(data > root->data) {
+
+        root->right = deleteFromTree(root->right, data);
+        return root;
+    } 
+
+    if(root->left == NULL && root->right == NULL) {
+
+        free(root);
+        return NULL;
+
+    } else if (root->left == NULL) {
+
+        BinaryTreeNode* temp = root->right;
+        free(root);
+        return temp;
+
+    } else if (root->right == NULL) {
+        
+        BinaryTreeNode* temp = root->left;
+        free(root);
+        return temp;
+        
+    } else {
+
+        BinaryTreeNode* succParent = root;
+ 
+        // Find successor
+        BinaryTreeNode* succ = root->right;
+        while (succ->left != NULL) {
+            succParent = succ;
+            succ = succ->left;
+        }
+ 
+        // Delete successor.  Since successor
+        // is always left child of its parent
+        // we can safely make successor's right
+        // right child as left of its parent.
+        // If there is no succ, then assign
+        // succ->right to succParent->right
+        if (succParent != root)
+            succParent->left = succ->right;
+        else
+            succParent->right = succ->right;
+ 
+        // Copy Successor Data to root
+        root->data= succ->data;
+ 
+        // Delete Successor and return root
+        free(succ);
+        return root;
+
+    }
+}
+
 //Main Function
 
 /**
@@ -217,11 +296,11 @@ void insert(BinaryTreeNode* root, BinaryTreeNode* prev, int data) {
 
 int main() {
 
-    BinaryTreeNode* root = createNode(8);
-    BinaryTreeNode* sub1 = createNode(5);
-    BinaryTreeNode* sub2 = createNode(3);
-    BinaryTreeNode* sub3 = createNode(6);
-    BinaryTreeNode* sub4 = createNode(9);
+    BinaryTreeNode* root = createNode(5);
+    BinaryTreeNode* sub1 = createNode(3);
+    BinaryTreeNode* sub2 = createNode(6);
+    BinaryTreeNode* sub3 = createNode(1);
+    BinaryTreeNode* sub4 = createNode(4);
 
     //      1
     //    /   \
@@ -230,10 +309,10 @@ int main() {
     // 3   4
 
     root->left = sub1;
-    root->right = sub4;
+    root->right = sub2;
 
-    sub1->left = sub2;
-    sub1->right = sub3;   
+    sub1->left = sub3;
+    sub1->right = sub4;   
 
     cout << "PreOrder ->" << endl;
     preorder(root);
@@ -252,6 +331,12 @@ int main() {
     cout << isSearchedValuePresentIterative(root, 13) << endl;
     cout << "Insertion" << endl;
     insert(root, NULL, 4);
-
+    cout << "PreOrder ->" << endl;
+    preorder(root);
+    cout << endl;
+    cout << "Delete" << endl;
+    root = deleteFromTree(root, 6);
+    cout << "PreOrder ->" << endl;
+    inOrder(root);
     return 0;
 }
