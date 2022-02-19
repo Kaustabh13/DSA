@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <queue>
 using namespace std;
 
 /**
@@ -67,6 +68,47 @@ void printMatrix(vector< vector<int> > mat, int V) {
     }
 }
 
+//Traversal
+
+/**
+ * @brief This function is used to find the BFS of a graph
+ * 
+ * @param adj -> The adjacency list
+ * @param V -> The count of vertices
+ */
+
+void bfs(vector<int> adj[], int V) {
+
+    vector<int> stored;
+    vector<int> visited(V,0);
+
+    queue<int> q;
+    q.push(0); //Assuming 0 as the starting point of the graph, if changed add an argument in the function int position
+    visited[0] = 1;
+
+    //Wrap it in a for loop if there are multiple components
+    while(!q.empty()) {
+        int node = q.front();
+        q.pop();
+        stored.push_back(node);
+
+        for(int it: adj[node]) {
+             if(!visited[it]) {
+                 q.push(it);
+                 visited[it] = 1;
+             }
+        }
+    }
+    
+    cout << "BFS for Graph is -> " << endl;
+
+    for(int i = 0; i < stored.size(); i++) {
+        cout << stored[i] << " ";
+    }
+
+    cout << endl;
+}
+
 //Graph
 // [[0,1],[0,4],[1,2],[1,3],[1,4],[2,3],[3,4]]
 
@@ -101,5 +143,9 @@ int main() {
     cout << "Post Add" << endl;
 
     printMatrix(mat, V);
+
+    cout << endl;
+
+    bfs(adj, V);
     return 0;
 }
