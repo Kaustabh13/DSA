@@ -109,6 +109,51 @@ void bfs(vector<int> adj[], int V) {
     cout << endl;
 }
 
+/**
+ * @brief This function is used to store the values in the vector
+ * 
+ * @param node -> The vertice/node
+ * @param visited -> List of booleans telling whether a node at an index is visited or not
+ * @param adj -> The adjacency list
+ * @param stored -> The stored values
+ */
+
+void dfs(int node, vector<int> &visited, vector<int> adj[], vector<int> &stored) {
+    stored.push_back(node);
+    visited[node] = 1;
+
+    for(int it: adj[node]) {
+        if(!visited[it]) {
+            dfs(it, visited, adj, stored); //Recursion
+        }
+    }
+}
+
+/**
+ * @brief This function is used to find out the DFS of a graph
+ * 
+ * @param adj -> The adjacency matrix
+ * @param V -> The count of vertices
+ */
+
+void dfsOfGraph(vector<int> adj[], int V) {
+
+    vector<int> stored;
+    vector<int> visited(V,0);
+
+    if(!visited[0]) {
+        dfs(0, visited, adj, stored);
+    }
+
+    cout << "DFS for Graph is -> " << endl;
+
+    for(int i = 0; i < stored.size(); i++) {
+        cout << stored[i] << " ";
+    }
+
+    cout << endl;
+} 
+
 //Graph
 // [[0,1],[0,4],[1,2],[1,3],[1,4],[2,3],[3,4]]
 
@@ -147,5 +192,9 @@ int main() {
     cout << endl;
 
     bfs(adj, V);
+
+    cout << endl;
+
+    dfsOfGraph(adj, V);
     return 0;
 }
